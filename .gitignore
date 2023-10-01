@@ -82,3 +82,6 @@ PVS-Studio.cfg
 *.PVS-Studio.cfg
 .pvsconfig
 pvs.log*
+
+# Jetbrains
+.idea/
