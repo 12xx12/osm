@@ -84,6 +84,3 @@ PVS-Studio.cfg
 .pvsconfig
 pvs.log*
 
-# Clion
-cmake-build-*/
-.idea/
