@@ -44,6 +44,11 @@ void Meter::add(const data_t &data) noexcept
         d = 0;
     }
 
+    if (m_time == Time::Hold) {
+        m_peak = std::max(m_peak, d);
+        return
+    }
+
     data_t p = m_data.replace(d);
     m_integrator -= p ;
 
@@ -76,7 +81,8 @@ Meter::data_t Meter::value() const noexcept
 {
     if (m_size == 0)
         return std::numeric_limits<data_t>::min();
-
+    if (m_time == Hold)
+        return m_peak;
     return m_integrator / m_size;
 }
 Meter::data_t Meter::dB() const noexcept
@@ -92,7 +98,7 @@ Meter::data_t Meter::peakSquared() const noexcept
 
 Meter::data_t Meter::peakdB() const noexcept
 {
-    return 10.f * std::log10(m_peak);;
+    return 10.f * std::log10(m_peak);
 }
 
 void Meter::reset() noexcept
@@ -112,6 +118,9 @@ void Meter::setSampleRate(unsigned int sampleRate)
     case Slow:
         m_data.resize(1 * sampleRate);
         break;
+    case Hold:
+        m_data.resize(1);
+        break;
     }
     m_weighting.setSampleRate(sampleRate);
     reset();
@@ -119,7 +128,8 @@ void Meter::setSampleRate(unsigned int sampleRate)
 
 const std::map<Meter::Time, QString>Meter::m_timeMap = {
     {Meter::Fast,   "Fast"},
-    {Meter::Slow,   "Slow"}
+    {Meter::Slow,   "Slow"},
+    {Meter::Hold,   "Hold"},
 };
 
 QVariant Meter::availableTimes()

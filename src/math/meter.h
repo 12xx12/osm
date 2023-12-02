@@ -28,8 +28,9 @@ class Meter
 {
 public:
     enum Time {
-        Fast = 0,
-        Slow = 1
+        Fast = 1,
+        Slow = 2,
+        Hold = 3
     };
     typedef double data_t;
 
@@ -45,7 +46,7 @@ public:
     void  reset() noexcept;
 
     void setSampleRate(unsigned int sampleRate);
-    static constexpr Time allTimes[] = {Fast, Slow};
+    static constexpr Time allTimes[] = {Fast, Slow, Hold};
 
     static QVariant availableTimes();
     static QString timeName(Time time);
