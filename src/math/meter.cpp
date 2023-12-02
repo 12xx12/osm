@@ -46,7 +46,7 @@ void Meter::add(const data_t &data) noexcept
 
     if (m_time == Time::Hold) {
         m_peak = std::max(m_peak, d);
-        return
+        return;
     }
 
     data_t p = m_data.replace(d);
@@ -119,7 +119,7 @@ void Meter::setSampleRate(unsigned int sampleRate)
         m_data.resize(1 * sampleRate);
         break;
     case Hold:
-        m_data.resize(1);
+        m_data.resize(0);
         break;
     }
     m_weighting.setSampleRate(sampleRate);
